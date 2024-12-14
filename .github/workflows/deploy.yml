@@ -30,7 +30,7 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
       with:
-        registries: '776215744471'
+        registries: ${{ secrets.AWS_ACCOUNT_ID }}
       env:
         AWS_REGION: ${{ secrets.AWS_REGION }}
 
@@ -66,8 +66,11 @@ jobs:
     - name: Update ECS Task Definition with new image
       id: update-task-def
       run: |
-        jq --arg IMAGE_URI "776215744471.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/lega-repo:${{ github.sha }}" \
-          '.containerDefinitions[0].image = $IMAGE_URI' ./my-task-def.json > updated-task-def.json
+        jq --arg IMAGE_URI "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/lega-repo:${{ github.sha }}" \
+           --arg EXECUTION_ROLE_ARN "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/ECS-TaskExecutionRole" \
+          '.containerDefinitions[0].image = $IMAGE_URI |
+           .executionRoleArn = $EXECUTION_ROLE_ARN' \
+          ./my-task-def.json > updated-task-def.json
 
     # Paso previo para guardar el ARN actual antes de la actualización
     - name: Save Previous Task Definition ARN
