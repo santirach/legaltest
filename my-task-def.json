@@ -3,7 +3,7 @@
   "containerDefinitions": [
       {
           "name": "legal-container-prod",
-          "image": "776215744471.dkr.ecr.us-east-1.amazonaws.com/legal-prod",
+          "image": "",
           "cpu": 0,
           "portMappings": [
               {
@@ -35,7 +35,7 @@
           "systemControls": []
       }
   ],
-  "executionRoleArn": "arn:aws:iam::776215744471:role/ECS-TaskExecutionRole",
+  "executionRoleArn": "",
   "networkMode": "awsvpc",
   "volumes": [],
   "placementConstraints": [],

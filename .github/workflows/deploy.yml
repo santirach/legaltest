@@ -67,7 +67,10 @@ jobs:
       id: update-task-def
       run: |
         jq --arg IMAGE_URI "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/legal-prod:${{ github.sha }}" \
-          '.containerDefinitions[0].image = $IMAGE_URI' ./my-task-def.json > updated-task-def.json
+           --arg EXECUTION_ROLE_ARN "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/ECS-TaskExecutionRole" \
+          '.containerDefinitions[0].image = $IMAGE_URI |
+           .executionRoleArn = $EXECUTION_ROLE_ARN' \
+          ./my-task-def.json > updated-task-def.json
 
     # Paso previo para guardar el ARN actual antes de la actualización
     - name: Save Previous Task Definition ARN
