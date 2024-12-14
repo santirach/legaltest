@@ -1,0 +1,50 @@
+{
+  "family": "legal-task",
+  "containerDefinitions": [
+      {
+          "name": "legal-container",
+          "image": "776215744471.dkr.ecr.us-east-1.amazonaws.com/lega-repo:latest",
+          "cpu": 256,
+          "memory": 512,
+          "memoryReservation": 512,
+          "portMappings": [
+              {
+                  "name": "legal-container-80-tcp",
+                  "containerPort": 80,
+                  "hostPort": 80,
+                  "protocol": "tcp",
+                  "appProtocol": "http"
+              }
+          ],
+          "essential": true,
+          "environment": [],
+          "mountPoints": [],
+          "volumesFrom": [],
+          "logConfiguration": {
+              "logDriver": "awslogs",
+              "options": {
+                  "awslogs-group": "/ecs/legal-task",
+                  "mode": "non-blocking",
+                  "awslogs-create-group": "true",
+                  "max-buffer-size": "25m",
+                  "awslogs-region": "us-east-1",
+                  "awslogs-stream-prefix": "ecs"
+              }
+          },
+          "systemControls": []
+      }
+  ],
+  "executionRoleArn": "arn:aws:iam::776215744471:role/ECS-TaskExecutionRole",
+  "networkMode": "awsvpc",
+  "volumes": [],
+  "placementConstraints": [],
+  "requiresCompatibilities": [
+      "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512",
+  "runtimePlatform": {
+      "cpuArchitecture": "X86_64",
+      "operatingSystemFamily": "LINUX"
+  }
+}
