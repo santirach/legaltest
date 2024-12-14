@@ -2,19 +2,14 @@ name: Blue/Green Deployment to AWS ECS
 
 on:
   pull_request:
+    types:
+      - closed
     branches:
       - UAT
-      - Producción
-
-  workflow_dispatch:
-    inputs:
-      deploy_to_green:
-        description: 'Deploy to Green'
-        required: true
-        default: 'false'
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -48,6 +43,7 @@ jobs:
         tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/lega-repo:${{ github.sha }}
 
   deploy:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: build
 
