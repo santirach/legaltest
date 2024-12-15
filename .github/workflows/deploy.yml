@@ -99,7 +99,7 @@ jobs:
           --application-name legal-service-test-codeD \
           --deployment-group-name legal-test--deployment-group \
           --deployment-config-name CodeDeployDefault.ECSLinear10PercentEvery1Minutes \
-          --revision '{"revisionType": "AppSpecContent", "appSpecContent": {"content": "{\"version\":\"1.0\",\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$NEW_TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"legal-container\",\"ContainerPort\":80}}}}]}}"}}'
+          --revision '{"revisionType": "AppSpecContent", "appSpecContent": {"content": "{\"version\":\"1.0\",\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$NEW_TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"legal-container\",\"ContainerPort\":80}}}}],\"Hooks\":{\"validateService\":[{\"location\":\"/bin/bash -c \\\"echo true\\\"\"}]}}}}'
 
 
 
