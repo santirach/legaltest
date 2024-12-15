@@ -4,14 +4,23 @@ Este proyecto tiene 2 rama UAT Y PRODUCCION
 la idea es cuando se crea un PR y se hace merge en alguna de esas ramas se dispara un ci/cd que desplegara los cambios echos en el index.html en los recursos de aws 
 
 
-dns de test: http://legal-alb-2046612139.us-east-1.elb.amazonaws.com/
-dns de prod: http://legal-prod-91511078.us-east-1.elb.amazonaws.com/
+main: https://github.com/santirach/legaltest
+test branch: https://github.com/santirach/legaltest/tree/UAT
+prod branch: https://github.com/santirach/legaltest/tree/Produccion
 
-en aws se hizo uso de los recursos como 
+las url para acceder a los servicios son:
+prod blue: http://legal-prod-91511078.us-east-1.elb.amazonaws.com:80/ o http://legal-prod-91511078.us-east-1.elb.amazonaws.com/
+prod green: http://legal-prod-91511078.us-east-1.elb.amazonaws.com:85/
 
-ECR: para almacenar la imagen de docker
-ECS: para la creacion de task, servicio y cluster donde estara corriendo el servicio
-ECR: donde se alamacenara la imagenes de dcoker y sus versiones
-ALB: alb para mediante de el se redirige el trafico a un target group u a otro dependidendo del peso se colo 50 para blue y 50 para green
+test blue: http://legal-alb-2046612139.us-east-1.elb.amazonaws.com:80/ o http://legal-alb-2046612139.us-east-1.elb.amazonaws.com/
+test green:  http://legal-alb-2046612139.us-east-1.elb.amazonaws.com:85/
 
-para activar el ci/cd crear un rama a partir de UAT para tsest o apartir de PRODUCCION para prod
+Recursos utilziados:
+
+Docker
+ECR donde se almacena las iamgenes de docker
+ECS servicio donde esta corriendo el servicio
+CodeDeploy recurso que nos permite trabajar el patron blue/green
+ALB 
+Target group
+Github Action
