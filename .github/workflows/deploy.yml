@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -52,7 +51,6 @@ jobs:
         aws ecr describe-images --repository-name lega-repo --image-ids imageTag=${{ github.sha }}
 
   deploy:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: build
 
