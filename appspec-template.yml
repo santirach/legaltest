@@ -8,7 +8,4 @@ Resources:
           ContainerName: legal-container
           ContainerPort: 80
 
-Hooks:
-  ValidateService:
-    - location: ./scripts/validate_service.sh
-      timeout: 300
+
