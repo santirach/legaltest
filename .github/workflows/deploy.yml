@@ -96,8 +96,8 @@ jobs:
         NEW_TASK_DEF_ARN=$(aws ecs describe-task-definition --task-definition legal-task | jq -r '.taskDefinition.taskDefinitionArn')
 
         aws deploy create-deployment \
-          --application-name AppECS-legal-cluster-legal-service-test-green-two \
-          --deployment-group-name DgpECS-legal-cluster-legal-service-test-green-two \
-          --deployment-config-name CodeDeployDefault.ECSAllAtOnce \
+          --application-name legal-service-test-codeD \
+          --deployment-group-name legal-test--deployment-group \
+          --deployment-config-name CodeDeployDefault.ECSLinear10PercentEvery1Minutes \
           --revision '{"revisionType": "AppSpecContent", "appSpecContent": {"content": "{\"version\":\"1.0\",\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$NEW_TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"legal-container\",\"ContainerPort\":80}}}}]}}"}}'
 
