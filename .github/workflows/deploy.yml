@@ -95,10 +95,11 @@ jobs:
       run: |
         NEW_TASK_DEF_ARN=$(aws ecs describe-task-definition --task-definition legal-task | jq -r '.taskDefinition.taskDefinitionArn')
 
-        # Reemplazar PLACEHOLDER_TASK_DEFINITION con el ARN real
+
         sed "s|PLACEHOLDER_TASK_DEFINITION|$NEW_TASK_DEF_ARN|g" appspec-template.yml > appspec.yml
 
-        # Procesar el contenido del archivo appspec.yml para pasarlo como JSON
+        cat appspec.yml
+
         APPSPEC_CONTENT=$(cat appspec.yml | jq -Rs .)
 
         # Usar --revision con el contenido de appspec.yml
