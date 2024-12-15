@@ -107,7 +107,7 @@ jobs:
           --deployment-group-name legal-test--deployment-group \
           --deployment-config-name CodeDeployDefault.ECSLinear10PercentEvery1Minutes \
           --revision '{"revisionType": "AppSpecContent", "appSpecContent": {"content": '"$APPSPEC_CONTENT"'}}' \
-          --file-exists-behavior OVERWRITE
+
 
 
 
