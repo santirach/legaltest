@@ -94,13 +94,15 @@ jobs:
     - name: Deploy to ECS via CodeDeploy
       run: |
         NEW_TASK_DEF_ARN=$(aws ecs describe-task-definition --task-definition legal-task | jq -r '.taskDefinition.taskDefinitionArn')
+
         sed "s|PLACEHOLDER_TASK_DEFINITION|$NEW_TASK_DEF_ARN|g" appspec-template.yml > appspec.yml
+
         aws deploy create-deployment \
           --application-name legal-service-test-codeD \
           --deployment-group-name legal-test--deployment-group \
           --deployment-config-name CodeDeployDefault.ECSLinear10PercentEvery1Minutes \
-          --file-exists-behavior OVERWRITE \
-          --appspec-file appspec.yml
+          --appspec-content "$(cat appspec.yml)" \
+          --file-exists-behavior OVERWRITE
 
 
 
