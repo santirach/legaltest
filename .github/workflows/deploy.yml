@@ -91,18 +91,15 @@ jobs:
           --cli-input-json file://updated-task-def.json
 
     # 5. Desplegar con CodeDeploy
+    # 5. Desplegar con CodeDeploy
     - name: Deploy to ECS via CodeDeploy
       run: |
         NEW_TASK_DEF_ARN=$(aws ecs describe-task-definition --task-definition legal-task | jq -r '.taskDefinition.taskDefinitionArn')
-
         aws deploy create-deployment \
           --application-name legal-service-test-codeD \
-          --deployment-group-name legal-test-deployment-group \
+          --deployment-group-name legal-test--deployment-group \
           --deployment-config-name CodeDeployDefault.ECSLinear10PercentEvery1Minutes \
-          --revision '{
-            "revisionType": "AppSpecContent",
-            "appSpecContent": {
-              "content": "{\"version\":\"1.0\",\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$NEW_TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"legal-container\",\"ContainerPort\":80}}}}],\"Hooks\":{\"validateService\":[{\"location\":\"/bin/bash -c \\\"exit 0\\\"\"}}]}}'
+          --revision '{"revisionType": "AppSpecContent", "appSpecContent": {"content": "{\"version\":\"1.0\",\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$NEW_TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"legal-container\",\"ContainerPort\":80}}}}]}}"}}'
 
 
 
