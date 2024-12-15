@@ -101,7 +101,7 @@ jobs:
           --application-name legal-service-test-codeD \
           --deployment-group-name legal-test--deployment-group \
           --deployment-config-name CodeDeployDefault.ECSLinear10PercentEvery1Minutes \
-          --appspec-content "$(cat appspec.yml)" \
+          --revision '{"revisionType": "AppSpecContent", "appSpecContent": {"content": "'$(cat appspec.yml | jq -Rs .)'"}}' \
           --file-exists-behavior OVERWRITE
 
 
