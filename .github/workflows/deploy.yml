@@ -2,13 +2,15 @@ name: Blue/Green Deployment to AWS ECS
 
 on:
   pull_request:
+    types:
+      - closed
     branches:
       - UAT
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    if: github.event.pull_request.merged == true
     steps:
     # 1. Checkout el código
     - name: Checkout code
@@ -53,7 +55,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-
+    if: github.event.pull_request.merged == true
     steps:
     # 1. Checkout el código
     - name: Checkout code
