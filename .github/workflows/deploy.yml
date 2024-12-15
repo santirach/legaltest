@@ -97,7 +97,11 @@ jobs:
 
         aws deploy create-deployment \
           --application-name legal-service-test-codeD \
-          --deployment-group-name legal-test--deployment-group \
+          --deployment-group-name legal-test-deployment-group \
           --deployment-config-name CodeDeployDefault.ECSLinear10PercentEvery1Minutes \
-          --revision '{"revisionType": "AppSpecContent", "appSpecContent": {"content": "{\"version\":\"1.0\",\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$NEW_TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"legal-container\",\"ContainerPort\":80}}}}],\"Hooks\":{\"validateService\":[{\"location\":\"/bin/bash -c \\"HTTP_STATUS=$(curl -s -o /dev/null -w \\"%{http_code}\\" --max-time 10 http://legal-alb-2046612139.us-east-1.elb.amazonaws.com:85/); if [ \\"$HTTP_STATUS\\" -ne 200 ]; then echo \\"Error: El servicio no está respondiendo correctamente\\"; exit 1; fi\\""}}]}}'
+          --revision '{
+            "revisionType": "AppSpecContent",
+            "appSpecContent": {
+              "content": "{\"version\":\"1.0\",\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$NEW_TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"legal-container\",\"ContainerPort\":80}}}}],\"Hooks\":{\"validateService\":[{\"location\":\"/bin/bash -c \\\"HTTP_STATUS=$(curl -s -o /dev/null -w \\\"%{http_code}\\\" --max-time 10 http://legal-alb-2046612139.***.elb.amazonaws.com:85/); if [ \\\"$HTTP_STATUS\\\" -ne 200 ]; then echo \\\"Error: El servicio no está respondiendo correctamente\\\"; exit 1; fi\\\"\"}}]}}'
+      shell: /usr/bin/bash -e {0}
 
